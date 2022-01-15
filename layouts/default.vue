@@ -4,15 +4,18 @@
       <AppMenu/>
       <Nuxt/>
     </div>
+    <AppFooter/>
   </div>
 </template>
 
 <script>
 import AppMenu from "~/components/AppMenu";
+import AppFooter from "~/components/AppFooter";
 
 export default {
   components: {
-    AppMenu
+    AppMenu,
+    AppFooter
   },
 };
 </script>
