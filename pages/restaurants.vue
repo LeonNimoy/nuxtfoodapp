@@ -6,13 +6,14 @@
       <AppSelect @change="selectedRestaurant = $event"/>
       <pre>{{ $data }}</pre>
     </div>
-    <AppRestaurantinfo/>
+    <AppRestaurantinfo :datasource="filterRestaurants"/>
   </main>
 </template>
 
 <script>
 import AppRestaurantinfo from "~/components/AppRestaurantinfo";
 import AppSelect from "@/components/AppSelect";
+import {mapState} from "vuex";
 
 export default {
   components: {
@@ -22,6 +23,18 @@ export default {
   data() {
     return {
       selectedRestaurant: ''
+    }
+  },
+  computed: {
+    ...mapState(['fooddata']),
+    filterRestaurants() {
+      if (this.selectedRestaurant) {
+        return this.fooddata.filter(el => {
+          let name = el.name.toLowerCase()
+          return name.includes(this.selectedRestaurant)
+        })
+      }
+      return this.fooddata
     }
   }
 };
