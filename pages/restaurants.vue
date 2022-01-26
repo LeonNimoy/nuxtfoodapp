@@ -3,41 +3,43 @@
     <div class="restaurantheading">
       <h1>Restaurants</h1>
 
-      <AppSelect @change="selectedRestaurant = $event"/>
-      <pre>{{ $data }}</pre>
+      <app-select @change="selectedRestaurant = $event" :selectoptions="restaurantOptions"/>
     </div>
-    <AppRestaurantinfo :datasource="filterRestaurants"/>
+
+    <AppRestaurantInfo :datasource="filteredRestaurants"/>
   </main>
 </template>
 
 <script>
-import AppRestaurantinfo from "~/components/AppRestaurantinfo";
-import AppSelect from "@/components/AppSelect";
+import AppSelect from "~/components/AppSelect.vue";
 import {mapState} from "vuex";
 
 export default {
   components: {
-    AppRestaurantinfo,
-    AppSelect
+    AppSelect,
+    AppRestaurantInfo: () =>
+      import(/* webpackPrefetch: true */ "~/components/AppRestaurantinfo.vue"),
   },
   data() {
     return {
-      selectedRestaurant: ''
-    }
+      selectedRestaurant: "",
+      restaurantOptions: ["tacos", "pizza", "dim sum"],
+    };
   },
   computed: {
-    ...mapState(['fooddata']),
-    filterRestaurants() {
+    ...mapState(["fooddata"]),
+    filteredRestaurants() {
       if (this.selectedRestaurant) {
-        return this.fooddata.filter(el => {
-          let name = el.name.toLowerCase()
-          return name.includes(this.selectedRestaurant)
-        })
+        return this.fooddata.filter((el) => {
+          let name = el.name.toLowerCase();
+          return name.includes(this.selectedRestaurant);
+        });
       }
-      return this.fooddata
-    }
-  }
+      return this.fooddata;
+    },
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>
